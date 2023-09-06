@@ -1,0 +1,148 @@
+html {
+    background-color: #fdede4;
+    background-image: -webkit-linear-gradient(65deg, #ec5b22 50%, #fdece4 50%);
+    min-height: 1000px;
+    font-family: 'helvetica neue';
+  }
+  
+  h1 {
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .box {
+    max-width: 400px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+  }
+  
+  #heading {
+    background-color: #ec5b22;
+    text-align: center;
+  }
+  
+  .item {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #F1F1F1;
+  }
+  
+  .item:last-child {
+    border-bottom: 0;
+  }
+  
+  input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: #ec5b22;
+  }
+  
+  input[type="checkbox"] {
+    cursor: pointer;
+    margin: 20px;
+  }
+  
+  p {
+    margin: 0;
+    padding-left: 0px;
+    padding-right: 15px;
+    font-size: 20px;
+    font-weight: 200;
+    color: #271001;
+    width: 250px;
+  }
+  
+  form{
+    text-align: left;
+    margin-left: 20px;
+  }
+  
+  button {
+    min-height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: #ec5b22;
+    color: #fff;
+    font-size: 30px;
+    padding-bottom: 6px;
+    border-width: 0;
+  }
+  
+  .newtext {
+    text-align: center;
+    height: 60px;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 200;
+    width: 313px;
+  }
+  
+  .newtext:focus {
+    outline: none;
+    box-shadow: inset -1px -6px 2px -3px #ec5b22;
+  }
+  
+  ::placeholder {
+    color: grey;
+    opacity: 1;
+  }
+  
+  footer {
+    color: white;
+    color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  
+  .list{
+    visibility: hidden;
+  }
+
+  .group{
+    position: fixed;
+    top: 55px;
+    left: 92%;
+  }
+
+  .glist{
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    position: fixed;
+    font-size: 20px;
+    top: 120px;
+    width: 150px;
+    left: 84%;
+    border-radius: 5px;
+    max-height: 60vh;
+  }
+  .glist ul{
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+  }
+  .glist a{
+    color: black;
+    text-decoration: none;
+  }
+  .glist li{
+    word-wrap: break-word;
+    padding: 5px 0px;
+    cursor: pointer;
+    border-bottom: 1px solid #F1F1F1; 
+  }
+  .glist .newtopic{
+    padding: 10px 0px;
+    font-size: 16px;
+    width: 125px;
+    border: none;
+  }
+  .newtopic :focus {
+    outline: none;
+    box-shadow: inset -1px -4px 2px -3px #ec5b22;
+  }

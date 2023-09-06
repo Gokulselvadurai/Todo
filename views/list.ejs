@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= , initial-scale=1.0">
+    <title>To do list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box" id="heading">
+        <h1><%= topic %></h1>
+    </div>
+    <div class="group">
+        <button>📑</button>
+    </div>
+    <div class="glist">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <% for(var i=0; i<manage.length; i++){ %>
+                <li><a href="<%=manage[i].name%>"><%=manage[i].name%></a></li>
+            <% } %>
+        </ul>
+        <form action="/add" method="post">
+            <input class="newtopic" type="text" name="new" placeholder="New categories" required>
+        </form>
+    </div>
+    
+    <div class="box">
+        <% for(var i=0; i<tasks.length; i++){ %>
+        <form class="item" action="/delete" method="post">
+            <input id="check<%=i%>" type="checkbox" name="name" value="<%=host%>">
+            <p><%=tasks[i].task%></p>
+            <button class="list<%=i%> list" type="submit" value="<%=tasks[i]._id%>" name="id">🗑</button>
+        </form >
+        <% } %>
+
+        <form action="/" method="post">
+            <input type="hidden" name="direct" value="<%=host%>">
+            <input class="newtext" type="text" name="newItem" placeholder="New task" required>
+            <button type="submit" name="button">✔</button>
+        </form>
+    </div>
+    <footer>@GokulSelvadurai</footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" charset="utf-8"></script>
+    <script src="index.js"></script>
+    <%# -> (for comment) %= -> (for extract data from app.js) %  -> (for execute code in ejs file) %>
+</body>
+</html> 
