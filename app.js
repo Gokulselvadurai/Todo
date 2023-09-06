@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
+const _=require("lodash");
+const async = require('async');
 
 const app = express();
 app.set('view engine','ejs');
@@ -26,12 +28,12 @@ const list4 = new list({
     task: "click \"📑\" to manage your task"
 });
 
-const taskSchema = {
+const taskSchema = new mongoose.Schema({
     name: {
         type: String
       },
     item: [listSchema]
-}
+});
 const tasks = mongoose.model("tasks",taskSchema);
 
 list.find({}).then((List)=>{
@@ -46,7 +48,7 @@ const categoryScheme = new mongoose.Schema({
 });
 const category = mongoose.model("category",categoryScheme);
 
-app.get("/",(req, res)=>{
+app.get("/",async (req, res)=>{
     let today = new Date();
     let options = {
         weekday: "long",
@@ -56,36 +58,20 @@ app.get("/",(req, res)=>{
 
     // making the day in string format with options
     let day = today.toLocaleDateString("en-US",options);
-    let manage;
-    category.find({}).then((List)=>{
-        manage=List;
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-    // Saturday -> 6, Sunday -> 0 (today.getDay())
-    list.find({}).then((List)=>{
-        res.render("list",{topic: day, tasks: List, manage: manage, host:"Home"});
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+    let List = await list.find({});
+    let categoryList = await category.find({});
+    res.render("list",{topic: day, tasks: List, manage: categoryList, host:"Home"});
     
     //render used to send ejs files
 });
 
-app.get("/:param",(req,res)=>{
+app.get("/:param",async(req,res)=>{
     let param = req.params.param;
-    let manage;
-    category.find({}).then((List)=>{
-        manage=List;
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+    let categoryList = await category.find({});
     const list5 = new list({
         task: "Here you note your new tasks."
     });
+    
     tasks.find({name:param})
         .then((foundlist)=>{
             if(foundlist.length==0){
@@ -94,11 +80,10 @@ app.get("/:param",(req,res)=>{
                     item:[list5]
                 });
                 newlist.save();
-                res.redirect("/"+param);
+                res.redirect("/"+_.kebabCase(param));
             }
             else{
-                console.log(foundlist[0]);
-                res.render("list",{topic: param, tasks: foundlist[0].item,manage: manage,host:param});
+                res.render("list",{topic: param, tasks: foundlist[0].item,manage: categoryList,host:param});
             }
         })
         .catch((err)=>{
@@ -124,16 +109,16 @@ app.post("/",(req,res)=>{
             .catch((err)=>{
                 console.log(err);
             })
-        res.redirect("/"+arg.direct);
+        res.redirect("/"+_.kebabCase(arg.direct));
     }
 });
 
-app.post("/delete",(req,res)=>{
+app.post("/delete",async (req,res)=>{
     let id = req.body.id;
     let name = req.body.name;
     if(name==="Home"){
         list.findByIdAndRemove(id).then((result)=>{
-
+            
         })
         .catch((err)=>{
             console.log(err);
@@ -141,12 +126,7 @@ app.post("/delete",(req,res)=>{
         res.redirect("/");
     }
     else{
-        tasks.findOneAndUpdate({name:name},{$pull: {item:{_id:id}}}).then((found)=>{
-
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+        var found = await tasks.findOneAndUpdate({name:name},{$pull: {item:{_id:id}}});
         res.redirect("/"+name);
     }
     
@@ -157,9 +137,7 @@ app.post("/add",(req,res)=>{
     const newcategory = new category({
         name: buff
     });
-    newcategory.save().catch((err)=>{
-        res.redirect("/");
-    });
+    newcategory.save();
     console.log(req.body);
     res.redirect("/");
 });
